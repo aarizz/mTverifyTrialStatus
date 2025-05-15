@@ -45,6 +45,8 @@ export default async ({ req, res, log, error }) => {
       
       const daysRemaining = Math.max(0, trialLengthDays - daysSinceSignup);
       const isInTrial = daysRemaining > 0;
+
+      log(`User ${userId} trial status: ${isInTrial}, days remaining: ${daysRemaining}`);
       
       return res.json({
         isInTrial,
