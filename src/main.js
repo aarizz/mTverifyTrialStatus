@@ -2,13 +2,12 @@ import { Client, Users } from 'node-appwrite';
 
 // This Appwrite function will be executed every time your function is triggered
 export default async ({ req, res, log, error }) => {
-  // You can use the Appwrite SDK to interact with other services
-  // For this example, we're using the Users service
   const client = new Client()
-    .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
+    .setEndpoint('https://cloud.appwrite.io/v1')
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-    .setKey(req.headers['x-appwrite-key'] ?? '');
-  const users = new Users(client);
+    .setKey(process.env.APPWRITE_API_KEY);
+
+    const users = new Users(client);
 
     const payload = req.bodyJson;
     const userId = payload.userId;
@@ -31,7 +30,7 @@ export default async ({ req, res, log, error }) => {
       );
       
       if (!isSignatureValid) {
-        console.warn(`Invalid trial signature detected for user ${userId}`);
+        console.warn(`Invalid trial signature detected for user id: ${userId}`);
         return res.json({ isInTrial: false, daysRemaining: 0 });
       }
       
