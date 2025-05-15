@@ -12,6 +12,8 @@ export default async ({ req, res, log, error }) => {
     const payload = req.bodyJson;
     const userId = payload.userId;
 
+    log.info(`Verifying trial status for user: ${userId}`);
+
     try {
       // Get user data from Appwrite
       const user = await users.get(userId);
