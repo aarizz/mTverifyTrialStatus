@@ -12,7 +12,7 @@ export default async ({ req, res, log, error }) => {
     const payload = req.bodyJson;
     const userId = payload.userId;
 
-    log(`Verifying user: ${userId}`);
+    log(`Verifying user for trial status: ${userId}`);
 
     try {
       // Get user data from Appwrite
