@@ -30,7 +30,7 @@ export default async ({ req, res, log, error }) => {
       );
       
       if (!isSignatureValid) {
-        console.warn(`Invalid trial signature detected for user ${userId}`);
+        console.warn(`Invalid trial signature detected for user id: ${userId}`);
         return res.json({ isInTrial: false, daysRemaining: 0 });
       }
       
