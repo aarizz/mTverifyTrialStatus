@@ -30,10 +30,10 @@ export default async ({ req, res, log, error }) => {
       user.prefs.trialSignature
     );
     
-    if (!isSignatureValid) {
-      log(`Invalid trial signature detected for user id: ${userId}`);
-      return res.json({ isInTrial: false, daysRemaining: 0 });
-    }
+    // if (!isSignatureValid) {
+    //   log(`Invalid trial signature detected for user id: ${userId}`);
+    //   return res.json({ isInTrial: false, daysRemaining: 0 });
+    // }
     
     // Calculate trial status using server time
     const signupDate = new Date(user.prefs.signupDate);
