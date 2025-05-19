@@ -13,8 +13,6 @@ export default async ({ req, res, log, error }) => {
   const payload = req.bodyJson;
   const userId = payload.userId;
 
-  log(`Verifying user for trial status: ${userId}`);
-
   try {
     // Get user data from Appwrite
     const user = await users.get(userId);
@@ -30,15 +28,14 @@ export default async ({ req, res, log, error }) => {
       user.prefs.trialSignature
     );
     
-    // if (!isSignatureValid) {
-    //   log(`Invalid trial signature detected for user id: ${userId}`);
-    //   return res.json({ isInTrial: false, daysRemaining: 0 });
-    // }
+    if (!isSignatureValid) {
+      return res.json({ isInTrial: false, daysRemaining: 0 });
+    }
     
     // Calculate trial status using server time
     const signupDate = new Date(user.prefs.signupDate);
     const currentDate = new Date();
-    const trialLengthDays = user.prefs.trialLength || 20;
+    const trialLengthDays = user.prefs.trialLength || 14;
     
     const daysSinceSignup = Math.floor(
       (currentDate - signupDate) / (1000 * 60 * 60 * 24)
@@ -46,8 +43,6 @@ export default async ({ req, res, log, error }) => {
     
     const daysRemaining = Math.max(0, trialLengthDays - daysSinceSignup);
     const isInTrial = daysRemaining > 0;
-
-    log(`User ${userId} trial status: ${isInTrial}, days remaining: ${daysRemaining}`);
     
     return res.json({
       isInTrial,
